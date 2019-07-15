@@ -8,6 +8,9 @@ submit.addEventListener("click", function() {
     let name = document.querySelector("#name").value;
     let pass = document.querySelector("#pass").value;
     
+    let display = document.querySelector("#display");
+    let details = document.querySelector("#details");
+    
     if (name == myName && pass == myPass) {
         alert("Login successful");
         // URL: https://api.myjson.com/bins/yangz
@@ -20,8 +23,6 @@ submit.addEventListener("click", function() {
             success: function(data, textStatus, jqXHR){
 //                console.log(data);
                 
-                let display = document.querySelector("#display");
-                let details = document.querySelector("#details");
                 details.style.visibility = "visible";
                 for (let key in data) {
                     display.innerHTML = `${display.innerHTML} <li> ${key.toUpperCase()}: ${data[key]} </li>`
@@ -31,5 +32,7 @@ submit.addEventListener("click", function() {
     }
     else {
         alert("Login failed");
+        display.textContent = "";
+        details.style.visibility = "hidden";
     }
 });

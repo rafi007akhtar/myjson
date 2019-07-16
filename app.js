@@ -14,21 +14,25 @@ submit.addEventListener("click", function() {
     if (name == myName && pass == myPass) {
         alert("Login successful");
         // URL: https://api.myjson.com/bins/yangz
-        $.ajax({
-            url:"https://api.myjson.com/bins/yangz",
-            type:"GET",
-            data:'{"key":"value"}',
-            contentType:"application/json; charset=utf-8",
-            dataType:"json",
-            success: function(data, textStatus, jqXHR){
-//                console.log(data);
-                
-                details.style.visibility = "visible";
-                for (let key in data) {
-                    display.innerHTML = `${display.innerHTML} <li> ${key.toUpperCase()}: ${data[key]} </li>`
+        let httpRequest = new XMLHttpRequest();
+        if (! httpRequest) {
+            alert("Cannot retrieve data.");
+            return false;
+        }
+        httpRequest.onreadystatechange = function() {
+            if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                if (httpRequest.status === 200) {
+                    let data = JSON.parse(httpRequest.responseText);
+//                    console.log(data);
+                    details.style.visibility = "visible";
+                    for (let key in data) {
+                        display.innerHTML = `${display.innerHTML} <li> ${key.toUpperCase()}: ${data[key]} </li>`
+                    }
                 }
             }
-        }); 
+        }
+        httpRequest.open("GET", "https://api.myjson.com/bins/yangz");
+        httpRequest.send();
     }
     else {
         alert("Login failed");
